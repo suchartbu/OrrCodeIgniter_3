@@ -6,7 +6,7 @@
 class JavaExec extends CI_Controller {
     public function __construct() {
         parent::__construct();
-        $this->load->library('java');
+        $this->load->library('Java');
     }
 
     public function index(){

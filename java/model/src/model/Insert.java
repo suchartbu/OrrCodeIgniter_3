@@ -24,16 +24,13 @@ public class Insert {
      * connect DB.
      */
     public static void main(String[] args) {
+        String sql = "";
         if (args.length > 0) {
-            String a = args[0];
-            String b = args[1];
-        }
-        for (String s : args) {
-            System.out.println(s);
+            sql = args[0];
         }
         Connection connection = null;
         Statement statement = null;
-        String sql = "INSERT INTO jdbc_test (id,name) VALUES('5','ทดสอบจาก Java6')";
+        //String sql = "INSERT INTO jdbc_test (id,name) VALUES('5','ทดสอบจาก Java6')";
         try {
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWD);
             statement = connection.createStatement();

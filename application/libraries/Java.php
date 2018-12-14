@@ -13,10 +13,10 @@ class Java {
     }
 
     public function Exec($file_name) {
-        $file_name = '/var/www/html/OrrCodeIgniter_3/java/' . $file_name . '.jar';
+        $file_name = '/var/www/html/OrrCodeIgniter_3/jar/' . $file_name . '.jar';
         $output = NULL;
 
-        exec('java -jar ' . $file_name, $output);
+        echo exec('java -jar ' . $file_name, $output);
         return $output;
     }
 
