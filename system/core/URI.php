@@ -144,7 +144,7 @@ class CI_URI {
 
 	/**
 	 * Set URI String
-	 *
+	 * Add urldecode($val)
 	 * @param 	string	$str
 	 * @return	void
 	 */
@@ -176,7 +176,7 @@ class CI_URI {
 
 				if ($val !== '')
 				{
-					$this->segments[] = $val;
+					$this->segments[] = urldecode($val);
 				}
 			}
 
