@@ -20,11 +20,14 @@ class Jdbc_test extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->jdb_ttrpf = new \model\TTRPF();
+        $this->jdb_ttrpf = new \model\TTRPF('orrconn','xoylfk');
     }
     
     public function index(){
-        echo 'Index of Jdbc_test';
+        echo 'Index of Jdbc_test => ';
+        echo 'function Insert(id,name) => ';
+        echo 'function Update(id,name) => ';
+        echo 'function Update(id) ';
     }
     
     public function Insert($id,$name='ค่าเริ่มต้นภาษาไทย'){
@@ -40,7 +43,7 @@ class Jdbc_test extends CI_Controller {
      * ไม่แจ้งข้อผิดพลาดเมื่อไม่มีข้อมูลให้ delete
      */
     public function Delete($id){
-        print_r($this->jdb_ttrpf->DelectJdbc_test($id));
+        print_r($this->jdb_ttrpf->DeleteJdbc_test($id));
     }
     /**
      * ปรับปรุงให้ส่งข้อมูลกลับมาเป็น Json
