@@ -54,7 +54,7 @@ class Jdb {
      */
     public function execQuery($sql) {
         $output = NULL;
-        echo $file_path = 'java -cp ' . $this->LibrariesPath . $this->JarDriver . '.jar:' . $this->ModelsPath . $this->jarModel . '.jar execQuery ' . '"' . $sql . '"';
+        echo $file_path = 'java -cp ' . $this->LibrariesPath . $this->JarDriver . '.jar:' . $this->ModelsPath . $this->jarModel . '.jar execQuery ' . '"' . $sql . '" ' . '"' . $this->user . '" ' . '"' . $this->passwd . '" ' . '"' . $this->url . '" ';
         exec($file_path, $output);
         return $output;
     }
