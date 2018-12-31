@@ -2,40 +2,35 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
- * คลาสเพื่อให้ php เรียกใช้คำสั่ง executeQuery
- *
+ * JDBC executeQuery
  * @author suchart bunhachirat
  */
 public class execQuery {
 
-    static String DB_SQL = "SELECT * FROM jdbc_test WHERE id = 0";
+    static String DB_SQL = "SELECT * FROM jdbc_test WHERE id > 0";
     static String DB_USER = "orrconn";
     static String DB_PASSWD = "xoylfk";
     static String DB_URL
             = "jdbc:as400://10.1.99.2/ttrpf";
 
     /**
-     * @param args the command line arguments - SQL command. - user password for
-     * connect DB.
+     * @param args Array the command line arguments - SQL User Password URL
+     * @throws java.lang.Exception
      */
-    public static void main(String[] args) {
-        //DB_SQL = "SELECT * FROM jdbc_test WHERE id = 0";
+    public static void main(String[] args) throws Exception {
         if (args.length == 4) {
             DB_SQL = args[0];
             DB_USER = args[1];
             DB_PASSWD = args[2];
             DB_URL = args[3];
         } else {
-            System.out.println("");
-            System.out.println("Usage:");
-            System.out.println("");
-            System.out.println("   java -cp libraries jdb.jar execQuery SQL USER PASS URL");
-            return;
+            //return;
         }
         Connection connection = null;
         Statement statement = null;
@@ -45,37 +40,41 @@ public class execQuery {
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWD);
             statement = connection.createStatement();
             resultSet = statement.executeQuery(DB_SQL);
-            ResultSetMetaData rsmd = resultSet.getMetaData();
-            int columnCount = rsmd.getColumnCount();
-            String[] columnLabels = new String[columnCount];
-            int[] columnWidths = new int[columnCount];
-            for (int i = 1; i <= columnCount; ++i) {
-                columnLabels[i - 1] = rsmd.getColumnLabel(i);
-                columnWidths[i - 1] = Math.max(columnLabels[i - 1].length(),
-                        rsmd.getColumnDisplaySize(i));
-            }
-            System.out.println(columnLabels[0]);
-
-            System.out.println("[{\"Status\":\"Success\"}]");
-            while (resultSet.next()) {
-                System.out.printf("%s\t%s\t%s\n",
-                        resultSet.getString(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3));
-            }
-
+            System.out.println("{\"status\":\"success\",\"data\":" + convertToJSON(resultSet) + "}");
         } catch (SQLException ex) {
-            System.out.println("[{\"Status\":\"Fail\"}]");
-            System.out.println(ex);
+            System.out.println("{\"status\":\"fail\",\"data\":\"\",\"info\":\"" + ex +"\"}");
+            System.exit(0);
         } finally {
             try {
-                resultSet.close();
-                statement.close();
-                connection.close();
+                if(resultSet != null) resultSet.close();
+                if(statement != null) statement.close();
+                if(connection != null) connection.close();
             } catch (SQLException ex) {
-                System.out.println("[{\"Status\":\"Fail\"}]");
-                System.out.println(ex);
+                System.out.println("{\"status\":\"fail\",\"data\":\"\",\"info\":\"" + ex +"\"}");
+                System.exit(0);
             }
         }
+    }
+
+    /**
+     * Convert a result set into a JSON Array
+     *
+     * @param resultSet
+     * @return a JSONArray
+     * @throws Exception
+     */
+    public static JSONArray convertToJSON(ResultSet resultSet)
+            throws Exception {
+        JSONArray jsonArray = new JSONArray();
+        while (resultSet.next()) {
+            int total_rows = resultSet.getMetaData().getColumnCount();
+            JSONObject obj = new JSONObject();
+            for (int i = 0; i < total_rows; i++) {
+                obj.put(resultSet.getMetaData().getColumnLabel(i + 1)
+                        .toLowerCase(), resultSet.getObject(i + 1));
+            }
+            jsonArray.put(obj);
+        }
+        return jsonArray;
     }
 }

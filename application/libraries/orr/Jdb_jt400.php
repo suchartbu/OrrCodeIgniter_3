@@ -2,7 +2,7 @@
 
 namespace orr;
 if (defined('BASEPATH')) {
-    require_once(APPPATH . 'libraries/orr/Jdb.php');
+    require_once('Jdb.php');
 } else {
     exit('No direct script access allowed');
 }

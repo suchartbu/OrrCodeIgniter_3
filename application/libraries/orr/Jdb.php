@@ -22,7 +22,7 @@ class Jdb {
     private $ModelsPath = '/var/www/html/OrrCodeIgniter_3/jar/models/';
     private $LibrariesPath = '/var/www/html/OrrCodeIgniter_3/jar/libraries/';
     protected $jarModel = 'jdb';
-    protected $JarDriver = NULL;
+    //protected $JarDriver = NULL;
     protected $user = NULL;
     protected $passwd = NULL;
     protected $url = NULL;
@@ -54,7 +54,7 @@ class Jdb {
      */
     public function execQuery($sql) {
         $output = NULL;
-        echo $file_path = 'java -cp ' . $this->LibrariesPath . $this->JarDriver . '.jar:' . $this->ModelsPath . $this->jarModel . '.jar execQuery ' . '"' . $sql . '" ' . '"' . $this->user . '" ' . '"' . $this->passwd . '" ' . '"' . $this->url . '" ';
+        $file_path = 'java -cp ' . $this->LibrariesPath . '*:' . $this->ModelsPath . $this->jarModel . '.jar execQuery ' . '"' . $sql . '" ' . '"' . $this->user . '" ' . '"' . $this->passwd . '" ' . '"' . $this->url . '" ';
         exec($file_path, $output);
         return $output;
     }

@@ -20,7 +20,7 @@ class Jdbc_test extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->jdb_ttrpf = new \model\TTRPF('orrconn','xoylfk');
+        $this->jdb_ttrpf = new \model\Ttrpf('orrconn','xoylfk');
     }
     
     public function index(){
