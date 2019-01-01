@@ -9,10 +9,13 @@ import org.json.JSONObject;
 
 /**
  * JDBC executeQuery
+ *
  * @author suchart bunhachirat
  */
 public class execQuery {
 
+    static final String EXEC_FAILED = "failed";
+    static final String EXEC_SUCCESSED = "successed";
     static String DB_SQL = "SELECT * FROM jdbc_test WHERE id > 0";
     static String DB_USER = "orrconn";
     static String DB_PASSWD = "xoylfk";
@@ -40,17 +43,23 @@ public class execQuery {
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWD);
             statement = connection.createStatement();
             resultSet = statement.executeQuery(DB_SQL);
-            System.out.println("{\"status\":\"success\",\"data\":" + convertToJSON(resultSet) + "}");
+            System.out.println("{\"execute\":\"" + EXEC_SUCCESSED +"\",\"data\":" + convertToJSON(resultSet) + ",\"info\":\"\"}");
         } catch (SQLException ex) {
-            System.out.println("{\"status\":\"fail\",\"data\":\"\",\"info\":\"" + ex +"\"}");
+            System.out.println("{\"execute\":\""+ EXEC_FAILED +"\",\"data\":\"\",\"info\":\"" + ex + " | execQuery 48\"}");
             System.exit(0);
         } finally {
             try {
-                if(resultSet != null) resultSet.close();
-                if(statement != null) statement.close();
-                if(connection != null) connection.close();
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException ex) {
-                System.out.println("{\"status\":\"fail\",\"data\":\"\",\"info\":\"" + ex +"\"}");
+                System.out.println("{\"execute\":\""+ EXEC_FAILED +"\",\"data\":\"\",\"info\":\"" + ex + " | execQuery 62\"}");
                 System.exit(0);
             }
         }

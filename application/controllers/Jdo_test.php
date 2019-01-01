@@ -17,9 +17,9 @@ if (defined('BASEPATH')) {
 class Jdo_test extends CI_Controller {
 
     public function index() {
-        $this->load->model('ttrpf');
+        $this->load->model('jdbs/ttrpf');
         
-        foreach ($this->ttrpf->Select() as $value) {
+        foreach ($this->Ttrpf->Select() as $value) {
             print $value['id'] . "\t";
             print $value['name'] . "\n";
         }

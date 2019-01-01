@@ -1,7 +1,5 @@
 <?php
 
-//namespace model;
-
 if (defined('BASEPATH')) {
     require_once(APPPATH . 'libraries/orr/JDO.php');
 } else {

@@ -9,7 +9,7 @@ if (defined('BASEPATH')) {
 } else {
     exit('No direct script access allowed');
 }
-
+class JDOException extends \Exception{}
 /**
  * JAVA Database Objects
  * @author suchart bunhachirat
@@ -35,6 +35,7 @@ class JDO {
         $this->dbUser = $user;
         $this->dbPasswd = $passwd;
     }
+
     /**
      * JDO::query
      * @param string $sql
@@ -42,7 +43,7 @@ class JDO {
      */
     public function query($sql) {
         $this->execQuery($sql);
-        return ($this->isQueryOk())?$this->Json['data']:FALSE;
+        return ($this->isQueryOk()) ? $this->Json['data'] : FALSE;
     }
 
     public function getRowsArray() {
@@ -50,7 +51,7 @@ class JDO {
     }
 
     public function isQueryOk() {
-        return ($this->Json['status'] === 'success')?TRUE:FALSE;
+        return ($this->Json['execute'] === 'successed') ? TRUE : FALSE;
     }
 
     public function getJson() {
@@ -59,9 +60,18 @@ class JDO {
 
     private function execQuery($sql) {
         $output = NULL;
-        $file_path = 'java -cp ' . $this->LibrariesPath . '*:' . $this->ModelsPath . 'jdb.jar execQuery ' . '"' . $sql . '" ' . '"' . $this->dbUser . '" ' . '"' . $this->dbPasswd . '" ' . '"' . $this->dbUrl . '" ';
-        exec($file_path, $output);
-        $this->Json = json_decode($output[0],TRUE);
+        try {
+            $file_path = 'java -cp ' . $this->LibrariesPath . '*:' . $this->ModelsPath . 'jdb.jar execQuery ' . '"' . $sql . '" ' . '"' . $this->dbUser . '" ' . '"' . $this->dbPasswd . '" ' . '"' . $this->dbUrl . '" ';
+            exec($file_path, $output);
+            $this->Json = json_decode($output[0], TRUE);
+            if($this->Json['execute'] === 'failed'){
+                throw new JDOException($this->Json['info']);
+            }
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        } finally {
+            
+        }
     }
 
 }
