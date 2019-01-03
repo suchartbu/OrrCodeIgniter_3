@@ -20,11 +20,7 @@ class Welcome extends CI_Controller {
      * @see https://codeigniter.com/user_guide/general/urls.html
      */
     public function index() {
-        $this->load->library('java');
         $this->load->view('welcome_message');
-        $out = $this->java->Exec('HelloWorldApp');
-        echo 'ทดสอบภาษาไทย';
-        print_r($out);
     }
 
 }

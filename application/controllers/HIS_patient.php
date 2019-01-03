@@ -8,7 +8,7 @@ if (defined('BASEPATH')) {
 
 /**
  * Description of HIS_patient
- * งานที่เกี่ยวกับผู้มารับบริการของโรงพยาบาล
+ * ทะเบียนประวัติผู้ป่วย
  * @author suchart bunhachirat
  */
 class HIS_patient extends CI_Controller {
@@ -44,6 +44,10 @@ class HIS_patient extends CI_Controller {
 
     public function name($fname,$lname) {
         $this->index(NULL,$fname,$lname);
+    }
+    
+    public function fname($fname) {
+        $this->index(NULL,$fname,NULL);
     }
 
 }

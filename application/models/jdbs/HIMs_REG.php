@@ -24,11 +24,13 @@ class HIMs_REG extends CI_Model {
             $sql = "SELECT rmshnref AS hn, rmsname AS fname, rmssurnam AS lname FROM regmasv5pf WHERE rmshnref = '" . $keys['hn'] . "'";
         } else if (!is_null($keys['fname']) AND !is_null($keys['lname'])) {
             $sql = "SELECT rmshnref AS hn, rmsname AS fname, rmssurnam AS lname FROM regmasv5pf WHERE RMSNAME LIKE '" . $keys['fname'] . "%' AND RMSSURNAM LIKE '" . $keys['lname'] . "%' ORDER BY rmsname , rmssurnam";
+        } else if (!is_null($keys['fname']) AND is_null($keys['lname'])) {
+            $sql = "SELECT rmshnref AS hn, rmsname AS fname, rmssurnam AS lname FROM regmasv5pf WHERE RMSNAME LIKE '" . $keys['fname'] . "%' ORDER BY rmsname";
         }else{
             $sql = "SELECT rmshnref AS hn, rmsname AS fname, rmssurnam AS lname FROM regmasv5pf WHERE rmshnref = 0";
         }
         $this->JDO = new \orr\JDO('orrconn', 'xoylfk', 'jdbc:as400://10.1.99.2/trhpfv5');
-        echo $sql;
+        //echo $sql;
         return $this->JDO->query($sql);
     }
 
