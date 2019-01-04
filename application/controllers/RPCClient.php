@@ -20,22 +20,24 @@ class RPCClient extends CI_Controller {
     }
 
     public function index() {
-        //echo 'index';
-        # get the url of the server script
-        //$url = getServerUrl();
-        //$url = 'http://localhost/jsonrpc/example/server.php';
         $url = 'http://localhost/OrrCodeIgniter_3/index.php/RPCServer';
-        //$url='http://localhost/OrrCodeIgniter_3/application/controllers/RPCServer.php';
         # create our client object, passing it the server url
-        $Client = new JsonRpc\Client($url);
+        //$this->load->library('vendor/json_rpc_client', [$url]);
+
+        //$success = false;
+
+        # create our client object, passing it the server url
+        //$Client = new JsonRpc\Client($url);
+        $this->load->library('vendor/json_rpc_client', ['url' => $url, 'transport' => NULL]);
 
         # set up our rpc call with a method and params
-        $method = 'divide';
-        $params = array(14, 5);
+        //$method = 'divide';
+        //$params = array(42, 6);
 
-        $success = false;
-
-        $success = $Client->call($method, $params);
+        //$success = false;
+        $Client = $this->json_rpc_client;
+        //$success = $Client->call('divide', [42,5]);
+        //$success = $this->json_rpc_client->call($method, $params);
 
         /*
           # notify
@@ -59,7 +61,7 @@ class RPCClient extends CI_Controller {
         echo '<pre>';
 
         echo '<b>return:</b> ';
-        echo $success ? 'true' : 'false';
+        echo $Client->call('divide', [42,10]) ? 'true' : 'false';
         echo '<br /><br />';
 
         echo '<b>result:</b> ', print_r($Client->result, 1);

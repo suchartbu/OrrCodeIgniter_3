@@ -44,10 +44,12 @@ class RPCServer extends CI_Controller {
         $methods = new ServerMethods();
 
         # create our server object, passing it the method handler class
-        $Server = new JsonRpc\Server($methods);
+        //$Server = new JsonRpc\Server($methods);
+        $this->load->library('vendor/json_rpc_server', ['methodHandler' => $methods]);
 
         # and tell the server to do its stuff
-        $Server->receive();
+        //$Server->receive();
+        $this->json_rpc_server->receive();
     }
 
 }

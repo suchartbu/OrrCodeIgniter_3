@@ -39,7 +39,8 @@
  * @property CI_Xmlrpcs $xmlrpcs
  * @property CI_Zip $zip
  * 
- * @property Index $index
+ * @property Json_rpc_client $json_rpc_client
+ * @property Json_rpc_server $json_rpc_server
  */
 class CI_Controller {
     
@@ -74,7 +75,8 @@ class CI_DB_Driver {
  * @property CI_Loader $load
  * @property CI_Session $session
  * 
- * @property Index $index
+ * @property Json_rpc_client $json_rpc_client
+ * @property Json_rpc_server $json_rpc_server
  */
 class CI_Model {
     
